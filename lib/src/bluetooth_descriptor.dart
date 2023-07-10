@@ -64,8 +64,6 @@ class BluetoothDescriptor
             readValue = response.value;
 
             _value.add(readValue);
-        }).catchError((e, stacktrace) {
-            throw Exception("$e $stacktrace");
         });
 
         return readValue;
@@ -109,8 +107,6 @@ class BluetoothDescriptor
             }
 
             _value.add(value);
-        }).catchError((e, stacktrace) {
-            throw Exception("$e $stacktrace");
         });
 
         return Future.value();

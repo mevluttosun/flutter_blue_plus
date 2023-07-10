@@ -308,17 +308,14 @@ class _Mutex
 
         _lastOperation = currentOperation.future;
 
-        // The `catchError` ensures that any error from the 
-        // previous operation is not re-propagated
-        await previousOperation.catchError((_) {});
+        await previousOperation;
 
         try {
             await operation();
             currentOperation.complete();
         } catch (e, st) {
             currentOperation.completeError(e, st);
+            rethrow;
         }
-
-        return currentOperation.future;
     }
 }

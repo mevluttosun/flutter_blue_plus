@@ -22,9 +22,6 @@ class FlutterBluePlus
     // timeout for scanning that can be cancelled by stopScan
     Timer? _scanTimeout;
 
-    // BufferStream for scanning that can be closed by stopScan
-    _BufferStream<ScanResult>? _scanResultsBuffer;
-
     /// Log level of the instance, default is all messages (debug).
     LogLevel _logLevel = LogLevel.debug;
 
@@ -98,12 +95,10 @@ class FlutterBluePlus
     /// Gets the current state of the Bluetooth module
     Stream<BluetoothState> get state async*
     {
-        BluetoothState initialState = await _channel
+        yield await _channel
             .invokeMethod('state')
             .then((buffer) => protos.BluetoothState.fromBuffer(buffer))
             .then((s) => BluetoothState.values[s.state.value]);
-
-        yield initialState;
 
         _stateStream ??= _stateChannel
             .receiveBroadcastStream()
@@ -174,12 +169,12 @@ class FlutterBluePlus
             .doOnDone(stopScan);
 
         // Start listening now, before invokeMethod, to ensure we don't miss any results
-        _scanResultsBuffer = _BufferStream.listen(scanResultsStream);
+        _BufferStream<ScanResult> buffer = _BufferStream.listen(scanResultsStream);
 
         // Start timer *after* stream is being listened to, to make sure we don't miss the timeout 
         if (timeout != null) {
             _scanTimeout = Timer(timeout, () {
-                _scanResultsBuffer?.close();
+                buffer.close();
                 _isScanning.add(false);
                 _channel.invokeMethod('stopScan');
             });
@@ -193,7 +188,7 @@ class FlutterBluePlus
             rethrow;
         }
 
-        await for (ScanResult item in _scanResultsBuffer!.stream) {
+        await for (ScanResult item in buffer.stream) {
 
             // update list of devices
             List<ScanResult> list = List<ScanResult>.from(_scanResults.value);
@@ -242,7 +237,6 @@ class FlutterBluePlus
     Future stopScan() async
     {
         await _channel.invokeMethod('stopScan');
-        _scanResultsBuffer?.close();
         _scanTimeout?.cancel();
         _isScanning.add(false);
     }

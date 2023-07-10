@@ -124,8 +124,6 @@ class BluetoothCharacteristic
 
             // cache latest value
             lastValue = responseValue;
-        }).catchError((e, stacktrace) {
-            throw Exception("$e $stacktrace");
         });
 
         return responseValue;
@@ -183,8 +181,6 @@ class BluetoothCharacteristic
                 return FlutterBluePlus.instance._channel
                     .invokeMethod('writeCharacteristic', request.writeToBuffer());
             }
-        }).catchError((e, stacktrace) {
-            throw Exception("$e $stacktrace");
         });
     }
 
