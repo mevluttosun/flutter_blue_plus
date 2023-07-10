@@ -6,23 +6,13 @@
 </p>
 <br><br>
 
-**Note: this plugin is continuous work from FlutterBlue since maintenance stopped.**
-
-## Foreward
-
-I highly recommend QuickBlue (https://pub.dev/packages/quick_blue) in favor of FlutterBlue. It has a simpler API, a much smaller codebase, and supports iOS, MacOS, Android, Windows, and partial Linux support. 
-
 ## Introduction
 
-FlutterBluePlus is a bluetooth plugin for [Flutter](https://flutter.dev), a new app SDK to help developers build modern multi-platform apps. 
+FlutterBluePlus is a bluetooth plugin for [Flutter](https://flutter.dev), a new app SDK to help developers build modern multi-platform apps. Note: this plugin is continuous work from FlutterBlue since maintaince stoped.
 
-## The State of Master Branch 
+## Alpha version
 
-- Todo: Remove Protofbuf for Android
-
-I started work removing protobuf [See Here](https://github.com/boskokg/flutter_blue_plus/commit/1848617e6ce25385c2a7b4129aa199801bcfee71). iOS and MacOS are done. 
-
-Android still needs to be updated to remove protobuf. 
+**This package must be tested on a real device.**
 
 ## Cross-Platform Bluetooth LE
 FlutterBluePlus aims to offer the most from both platforms (iOS and Android).
