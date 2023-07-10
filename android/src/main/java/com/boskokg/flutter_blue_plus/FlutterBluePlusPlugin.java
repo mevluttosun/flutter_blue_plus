@@ -337,7 +337,7 @@ public class FlutterBluePlusPlugin implements
 
                     BluetoothLeScanner scanner = mBluetoothAdapter.getBluetoothLeScanner();
                     if(scanner == null) {
-                        result.error("startScan", String.format("getBluetoothLeScanner() is null. Is the Adapter on?", null);
+                        result.error("startScan", String.format("getBluetoothLeScanner() is null. Is the Adapter on?", null));
                         return;
                     }
                     
